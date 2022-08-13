@@ -1,13 +1,46 @@
-# tfClassifier
+# FastAPI TensorFlow API
 
-This repository contains code to: 
-1) setup the tensorflow imagenet classifier which is capable of identifying 1000 objects.
-2) setup a retraining script that takes in your own images and trains a new mdoel that you can use.
-3) Using tensorflow to build a text classification system.
+## Introduction
+A collection of API endpoints for that utilize TensorFlow to perform inference.
 
-setting up tensorflow classifier and retraining it 
+## How to use
+- Command line:
+    ```bash
+    $ python3 image_classification/classifier.py --image_file ./house.jpeg --num_top_predictions 5
+    ```
+    Sample Response:
+    ```
+    [
+      'picket fence, paling (score = 0.95398)',
+      'worm fence, snake fence, snake-rail fence, Virginia fence (score = 0.03971)',
+      'beacon, lighthouse, beacon light, pharos (score = 0.00019)',
+      'boathouse (score = 0.00015)',
+      'patio, terrace (score = 0.00007)'
+    ]
+    ```
 
-find the tutorials here:
-1) https://sourcedexter.com/quickly-setup-tensorflow-image-recognition/
-2) https://sourcedexter.com/retrain-tensorflow-inception-model/
-3) https://sourcedexter.com/tensorflow-text-classification
+- Run the API locally
+  ```bash
+  $ uvicorn app.main:app --reload
+  ```
+  and go to http://localhost:8000/docs to see the documentation.
+
+## Run Tests
+```bash
+$ pytest
+```
+## Structure
+```
+.
+├── app
+│   ├── __init__.py
+│   ├── main.py
+│   ├── dependencies.py
+│   └── routers
+│   │   ├── __init__.py
+│   │   ├── classify.py
+│   │   └── users.py
+│   └── internal
+│       ├── __init__.py
+│       └── admin.py
+```
