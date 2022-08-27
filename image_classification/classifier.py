@@ -1,3 +1,4 @@
+# pylint: disable=import-error
 # Copyright 2015 The TensorFlow Authors. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -46,7 +47,7 @@ FLAGS = None
 current_dir_path = os.path.dirname(os.path.realpath(__file__))
 
 
-class NodeLookup(object):
+class NodeLookup():
     """Converts integer node ID's to human readable labels."""
 
     def __init__(self,
@@ -106,6 +107,7 @@ class NodeLookup(object):
         return node_id_to_name
 
     def id_to_string(self, node_id):
+        """Looks up and returns the corresponding node ID in the mapping"""
         if node_id not in self.node_lookup:
             return ''
         return self.node_lookup[node_id]

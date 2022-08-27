@@ -1,21 +1,26 @@
+# pylint: disable=import-error
+"""Image classification API"""
+
 import base64
 import os
 from typing import Union
 
+from pydantic import BaseModel
 from fastapi import APIRouter
 from image_classification.classifier import run_inference_on_image
-from pydantic import BaseModel
 
 router = APIRouter()
 
 
 class ImageProps(BaseModel):
+    """Image classification model properties"""
     image: Union[str, bytes]
     num_top_predictions: int = 1
 
 
 @router.post("/classify")
 def classify(props: ImageProps):
+    """Image classification endpoint"""
     if isinstance(props.image, str):
         image = base64.b64decode(props.image)
     else:
