@@ -1,7 +1,11 @@
-fastapi==0.79.0
+fastapi==0.81.0
+matplotlib==3.3.4
 nltk==3.7
 numpy==1.19.5
 pydantic==1.9.1
+pytest==7.0.1
+python-dotenv==0.20.0
 six==1.15.0
+SQLAlchemy==1.4.40
 tensorflow==2.6.2
 tflearn==0.5.0

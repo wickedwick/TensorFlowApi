@@ -1,7 +1,10 @@
+# pylint: disable=import-error
 """Users module: Provides authentication and user management functionality"""
 
 from pydantic import BaseModel
+from authentication.hashing import Hasher
 
+# TODO: Implement DB connection
 fake_users_db = {
     "johndoe": {
         "username": "johndoe",
@@ -20,40 +23,35 @@ fake_users_db = {
 }
 
 
-def fake_hash_password(password: str):
-    """Placeholder for hash function"""
-    return "hashed_password" + password
-
-
-class User(BaseModel):
+class UserCredentials(BaseModel):
     """User model: Username and password only"""
     username: str
     password: str
 
 
-class DatabaseUser(User):
+class CredentialsVerification(UserCredentials):
     """DatabaseUser model: Extends User with hashed password"""
     hashed_password: str
 
 
-def get_user(users_dict, username: str):
+def get_verification(users_dict, username: str):
     """Gets a user by username"""
     if username in users_dict:
         user = users_dict[username]
-        return DatabaseUser(**user)
+        return CredentialsVerification(**user)
     return None
 
 
 def login(username: str, password: str):
     """Authenticates a user by username and password"""
-    user = get_user(fake_users_db, username)
-    print(fake_users_db)
+    user = get_verification(fake_users_db, username)
 
     if not user:
         return 'not found'
-    hashed_password = fake_hash_password(password)
 
-    if not hashed_password == user.hashed_password:
+    verified = Hasher.verify_password(password, user.hashed_password)
+
+    if not verified:
         return 'incorrect username or password'
 
     return True
