@@ -1,6 +1,7 @@
 # pylint: disable=import-error, missing-module-docstring, missing-function-docstring, redefined-outer-name
 import pytest
-from authentication.users import CredentialsVerification, UserCredentials, login
+from data.models.users import User
+from authentication.users import login
 # from authentication.users import CredentialsVerification, login, UserCredentials
 
 
@@ -10,24 +11,14 @@ def test_password():
 
 
 @pytest.fixture
-def create_user(test_password: str):
-    def make_user(**kwargs):
-        kwargs['password'] = test_password
-        if 'username' not in kwargs:
-            kwargs['username'] = 'test_user'
-        return UserCredentials(**kwargs)
-    return make_user
-
-
-@pytest.fixture
 def create_database_user(test_password: str):
     def make_user(**kwargs):
-        kwargs['password'] = test_password
+        kwargs['hashed_password'] = test_password
         if 'username' not in kwargs:
             kwargs['username'] = 'test_user'
         if 'hashed_password' not in kwargs:
             kwargs['hashed_password'] = 'hashed_passwordsecret'
-        return CredentialsVerification(**kwargs)
+        return User(**kwargs)
     return make_user
 
 

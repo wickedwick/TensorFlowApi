@@ -30,6 +30,8 @@ def test_post_auth_fail():
 
 def test_post_auth_success(mocker):
     mocker.patch("app.main.login", return_value=True)
+    mocker.patch("app.main.create_access_token",
+                 return_value="random_token_string")
     client = TestClient(app)
     response = client.post(
         "/token",
@@ -45,4 +47,6 @@ def test_post_auth_success(mocker):
 
     assert response.status_code == 200
     assert response.json() == {
-        "access_token": "access_token", "token_type": "bearer"}
+        "access_token": "random_token_string",
+        "token_type": "bearer"
+    }

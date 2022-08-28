@@ -16,3 +16,6 @@ class User(Base):
     hashed_password = Column(String(255), nullable=False)
     is_active = Column(Boolean(), default=True)
     is_superuser = Column(Boolean(), default=False)
+
+    def __str__(self) -> str:
+        return self.username + ':' + self.email

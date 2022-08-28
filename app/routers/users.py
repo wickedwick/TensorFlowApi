@@ -6,7 +6,7 @@ from pydantic import BaseModel
 from authentication.hashing import Hasher
 from data.database import get_db
 from data.models.users import User
-from schemas.users import UserCreate
+from schemas.users import UserCreate, UserShow
 
 router = APIRouter()
 
@@ -24,17 +24,15 @@ def create_user(props: UserProps):
     :param db:
     :return:
     """
-    try:
-        db = get_db()
-        user = User(username=props.user.username,
-                    email=props.user.email,
-                    hashed_password=Hasher.hash_password(props.user.password),
-                    is_active=True,
-                    is_superuser=False,
-                    )
 
-        db.add(user)
-        db.commit()
-        db.refresh(user)
-    except Exception as e:
-        print('Failed to upload to ftp: ' + str(e))
+    database = get_db()
+    user = User(username=props.user.username,
+                email=props.user.email,
+                hashed_password=Hasher.hash_password(props.user.password),
+                is_active=True,
+                is_superuser=False,
+                )
+
+    database.add(user)
+    database.commit()
+    database.refresh(user)
