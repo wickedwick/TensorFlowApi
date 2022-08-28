@@ -2,7 +2,7 @@
 """Main API routes. Includes routers for ML functions"""
 
 from fastapi import Depends, FastAPI
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from fastapi.security import OAuth2PasswordRequestForm
 from authentication.users import create_access_token, get_current_user, get_verification, login
 from data.database import create_tables
 from data.settings import settings

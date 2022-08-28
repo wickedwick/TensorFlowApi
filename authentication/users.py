@@ -11,7 +11,7 @@ from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
 from data.database import get_db
 from data.models.users import User
-from pydantic import BaseModel, ValidationError
+from pydantic import ValidationError
 from schemas.token import TokenPayload
 
 from authentication.hashing import Hasher
