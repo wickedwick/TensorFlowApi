@@ -4,22 +4,21 @@
 from datetime import datetime, timedelta
 from pathlib import Path
 
-import os
 from dotenv import load_dotenv
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
+from pydantic import ValidationError
 from data.database import get_db
 from data.models.users import User
-from pydantic import ValidationError
 from schemas.token import TokenPayload
 
 from authentication.hashing import Hasher
 
 env_path = Path('.') / '.env'
 load_dotenv(dotenv_path=env_path)
-secret_key = os.getenv("SECRET_KEY")
-algorithm = os.getenv("ALGORITHM")
+SECRET_KEY = "09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7"
+ALGORITHM = "HS256"
 
 
 def get_verification(username: str):
@@ -35,7 +34,7 @@ def create_access_token(user: User):
     """Creates a JWT token"""
     expire = datetime.utcnow() + timedelta(minutes=15)
     to_encode = {"exp": expire, "sub": str(user)}
-    encoded_jwt = jwt.encode(to_encode, secret_key, algorithm=algorithm)
+    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
 
 
@@ -63,8 +62,7 @@ reuseable_oauth = OAuth2PasswordBearer(
 def get_current_user(token: str = Depends(reuseable_oauth)) -> User:
     """Gets the current user"""
     try:
-        payload = jwt.decode(token, secret_key, algorithms=[algorithm])
-        print(payload["sub"])
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         token_data = TokenPayload(**payload)
 
         if datetime.fromtimestamp(token_data.exp) < datetime.now():

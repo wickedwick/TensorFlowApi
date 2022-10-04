@@ -1,8 +1,9 @@
 # pylint: disable=import-error
-from dataclasses import dataclass
-from sqlalchemy import Column, Integer, String, Boolean
-# from sqlalchemy.orm import relationship
+"""User database class"""
 
+from dataclasses import dataclass
+
+from sqlalchemy import Boolean, Column, Integer, String
 from data.models.base_class import Base
 
 

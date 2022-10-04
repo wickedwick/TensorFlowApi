@@ -6,7 +6,7 @@ from pydantic import BaseModel
 from authentication.hashing import Hasher
 from data.database import get_db
 from data.models.users import User
-from schemas.users import UserCreate, UserShow
+from schemas.users import UserCreate
 
 router = APIRouter()
 
